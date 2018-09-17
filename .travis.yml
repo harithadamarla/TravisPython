@@ -5,3 +5,20 @@ install:
  - pip install -r requirements.txt
 script:
  - true
+services:
+ - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE zeus_python;'
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+before_install:
+  - mysql_upgrade
+  - mysql -u root -e 'CREATE DATABASE zeus_python;'
+  - mysql -u root -e "CREATE USER IF NOT EXISTS 'haritha'@'localhost' IDENTIFIED WITH mysql_native_password BY 'haritha';"
+  - mysql -u root -e "GRANT ALL ON zeus_spring.* TO 'haritha'@'localhost';"
+
